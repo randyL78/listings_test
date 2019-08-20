@@ -1,13 +1,15 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: alena
  * Date: 2019-02-01
  * Time: 14:17
  */
-require __DIR__ .'/../classes/ListingBasic.php';
 
 use PHPUnit\Framework\TestCase;
+
+include __DIR__ . '/../inc/config.php';
 
 class ListingImageTest extends TestCase
 {
@@ -20,7 +22,6 @@ class ListingImageTest extends TestCase
         ];
         $listing = new ListingBasic($data);
         $this->assertFalse($listing->getImage());
-
     }
     public function testFullPathImage()
     {
@@ -31,7 +32,6 @@ class ListingImageTest extends TestCase
         ];
         $listing = new ListingBasic($data);
         $this->assertEquals($data['image'], $listing->getImage());
-
     }
     public function testBuildPathImage()
     {
@@ -41,6 +41,6 @@ class ListingImageTest extends TestCase
             'image' => 'images/listings/1.png',
         ];
         $listing = new ListingBasic($data);
-        $this->assertEquals(BASE_URL.'/'.$data['image'], $listing->getImage());
+        $this->assertEquals(BASE_URL . '/' . $data['image'], $listing->getImage());
     }
 }

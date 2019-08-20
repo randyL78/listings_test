@@ -1,4 +1,7 @@
 <?php
+
+
+
 session_start();
 define('BASE_URL', 'http://localhost:8000');
 
@@ -11,11 +14,11 @@ include __DIR__ . '/../classes/ListingFeatured.php';
 
 try {
     //create PDO connection
-    $db = new PDO("sqlite:".__DIR__."/database.db");
-    $db->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
-} catch(PDOException $e) {
+    $db = new PDO("sqlite:" . __DIR__ . "/database.db");
+    $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch (PDOException $e) {
     //show error
-    echo '<p class="bg-danger">'.$e->getMessage().'</p>';
+    echo '<p class="bg-danger">' . $e->getMessage() . '</p>';
     exit;
 }
 //load main collection object

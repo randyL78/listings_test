@@ -3,7 +3,100 @@
 class ListingBasic
 {
     private $id, $title, $website, $email, $twitter;
+    private $image;
     protected $status = 'basic';
+
+    protected $listing;
+
+    /**
+     * Creates an instance of the ListingBasic class to perform tests on.
+     * @return void
+     */
+    protected function setUp(): void
+    {
+        $data = [
+            'id' => 5,
+            'title' => 'My Basic Listing',
+            'website' => 'www.example.com',
+            'email' => 'name@example.com',
+            'twitter' => 'myListing123'
+        ];
+
+        $this->listing = new ListingBasic($data);
+    }
+
+    /** @test */
+    public function getStatusReturnsBasic()
+    {
+        $expected = 'basic';
+        $actual = $this->listing->getStatus();
+        $this->assertEquals($expected, $actual);
+    }
+
+    /** @test */
+    public function hasId()
+    {
+        $expected = 5;
+        $actual = $this->listing->getId();
+        $this->assertEquals($expected, $actual);
+    }
+
+    /** @test */
+    public function hasTitle()
+    {
+        $expected = 'My Basic Listing';
+        $actual = $this->listing->getTitle();
+        $this->assertEquals($expected, $actual);
+    }
+
+    /** @test */
+    public function hasWebsite()
+    {
+        $expected = 'http://www.example.com';
+        $actual = $this->listing->getWebsite();
+        $this->assertEquals($expected, $actual);
+    }
+
+    /** @test */
+    public function hasEmail()
+    {
+        $expected = 'name@example.com';
+        $actual = $this->listing->getEmail();
+        $this->assertEquals($expected, $actual);
+    }
+
+    /** @test */
+    public function hasTwitter()
+    {
+        $expected = 'myListing123';
+        $actual = $this->listing->getTwitter();
+        $this->assertEquals($expected, $actual);
+    }
+
+    /** @test */
+    public function toArrayHasAllItems()
+    {
+        $id = '5';
+        $title = 'My Basic Listing';
+        $website = 'http://www.example.com';
+        $email = 'name@example.com';
+        $twitter = 'myListing123';
+
+        $results = $this->listing->toArray();
+
+        $this->assertArrayHasKey('id', $results);
+        $this->assertArrayHasKey('title', $results);
+        $this->assertArrayHasKey('website', $results);
+        $this->assertArrayHasKey('email', $results);
+        $this->assertArrayHasKey('twitter', $results);
+
+
+        $this->assertEquals($id, $results['id']);
+        $this->assertEquals($title, $results['title']);
+        $this->assertEquals($website, $results['website']);
+        $this->assertEquals($email, $results['email']);
+        $this->assertEquals($twitter, $results['twitter']);
+    }
 
     /**
      * ListingBasic constructor.
@@ -21,7 +114,8 @@ class ListingBasic
      * Calls individual methods to set values for object properties.
      * @param array $data Data to set from user or database
      */
-    public function setValues($data = []) {
+    public function setValues($data = [])
+    {
         if (!isset($data['id'])) {
             throw new Exception('Unable to create a listing, invalid id');
         }
@@ -63,6 +157,36 @@ class ListingBasic
     public function setId($value)
     {
         $this->id = trim(filter_var($value, FILTER_SANITIZE_NUMBER_INT));
+    }
+
+    /**
+     * Gets the listing's image
+     * @return string the image's url.
+     */
+    public function getImage()
+    {
+        if (empty($this->image)) {
+            return false;
+        }
+        return $this->image;
+    }
+
+    /**
+     * Set's the listing's image     *
+     * @param string $image
+     * @return void
+     */
+    public function setImage($image)
+    {
+        $image = trim(filter_var($image, FILTER_SANITIZE_STRING));
+        if (empty($image)) {
+            $this->website = null;
+            return;
+        }
+        if (substr($image, 0, 4) != 'http') {
+            $image = BASE_URL . '/' . $image;
+        }
+        $this->image = $image;
     }
 
     /**
